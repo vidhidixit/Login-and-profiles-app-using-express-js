@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TYP PAGE</title>
+        <link rel="stylesheet" href="styleprofile.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <style>
+        @media only screen and (max-width: 750px) {
+           
+            #navbarbottom{
+                flex-direction:column;
+                height:120px;
+                
+            }
+            #fright{
+                width:370px;
+            }
+
+            #align{
+                flex-direction:column;
+            }
+            #card{
+                flex-direction: column;
+            }
+
+        }
+   </style>
+   
+   
+    </head>
+    <body class="container">
+        <div id="navbar">
+            <div id="logo">TYP.</div>
+            <div><input type="search" placeholder="Search...." id="searching"><label><button style="background-color: white;color:black;width:5vw" onclick="filter()">Key</button></label></div>
+            <div id="profile-image"><img onclick="dropdown()" style="width: 30px; height:7vh; border-radius: 50%;" src="images/login-image.jpg"></div>
+        </div>
+        <div id="align">
+                
+        </div>
+
+
+        <footer id="navbarbottom">
+            <div id="fleft">
+                <p>(c)2020. The youth Project TYP TITANS</p>
+            </div>
+            <div id="fright">
+               
+                    <div a="href">Terms of Use</a></div>
+               <div>Privacy Policy</a></div>
+               <div>Support</a></div>   
+        
+                
+                <div>|</div>
+                <div id="icons" style="color:white"></div>
+                <a href="#"><i class="fa fa-facebook-square" style="font-size:23px"></i></a>
+                <a href="#"><i class="fa fa-twitter-square" style="font-size:23px"></i></a>
+                <a href="#"><i class="fa fa-instagram" style="font-size:23px"></i></a>
+                <a href="#"><i class="fa fa-github-square" style="font-size:23px"></i></a>
+            </div>
+        </footer>
+        <script>
+                        var students = [];
+                        var copystudents=[];
+
+// write code to fetch students list
+var url = "http://localhost:8084";
+var urlprofile=url+"/profile";
+var promiseOfResponse = fetch(urlprofile);
+//getting the data from the server
+promiseOfResponse.then(response => {
+    // this will execute only when
+    // promise is fullfilled
+    if (response.status == 200) {
+        var promiseOfData = response.json();
+        promiseOfData.then(jsonData => {
+            students = jsonData;
+            copystudents=students;
+            render();
+        });
+    }
+});
+//rendering the cards of profile such that not more than 3 cards lay in a row
+function render(){
+    var card=document.getElementById("align");
+    var temp="";
+    for(var i=0;i<students.length;i=i+3)
+{
+    if(i%3===0&&students.length>(i+2))
+    {
+        temp+=`<div id="card" >
+       <div class="cards" onclick="singleProfile(${i})" id="cardsm">
+                <img style="width:20vw;height:30vh;"src="${students[i].image}">
+                <div id="details">
+                    <div>${students[i].name}</div>
+                    <div>${students[i].company}</div>
+                    <div>${students[i].country}</div>
+                    <div>
+                        <a href="#"><i class="fa fa-facebook-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-github-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-twitter-square" style="font-size:23px; color:black;"></i></a>
+                    </div>
+                    <button  onclick="singleProfile(${i})">View Profile</button>
+                </div>
+                </div>
+                <div class="cards"  id="cardsm">
+                <img style="width:20vw;height:30vh;"src="${students[i+1].image}">
+                <div id="details">
+                    <div>${students[i+1].name}</div>
+                    <div>${students[i+1].company}</div>
+                    <div>${students[i+1].country}</div>
+                    <div>
+                        <a href="#"><i class="fa fa-facebook-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-github-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-twitter-square" style="font-size:23px; color:black;"></i></a>
+                    </div>
+                
+                <button  onclick="singleProfile(${i+1})">View Profile</button>
+                </div>
+                </div>
+                <div class="cards"  onclick="singleProfile(${i+2})"id="cardsm">
+                <img style="width:20vw;height:30vh;"src="${students[i+2].image}">
+                <div id="details">
+                    <div>${students[i+2].name}</div>
+                    <div>${students[i+2].company}</div>
+                    <div>${students[i+2].country}</div>
+                    <div>
+                        <a href="#"><i class="fa fa-facebook-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-github-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-twitter-square" style="font-size:23px; color:black;"></i></a>
+                    </div>
+                    <button  onclick="singleProfile(${i+2})">View Profile</button>
+                </div>
+                </div>
+                </div>
+                `
+    }
+    else if(i+1===students.length)
+    {
+        temp+=`<div id="card">
+       <div class="cards" id="cardsm">
+                <img style="width:20vw;height:30vh;"src="${students[i].image}">
+                <div id="details">
+                    <div>${students[i].name}</div>
+                    <div>${students[i].company}</div>
+                    <div>${students[i].country}</div>
+                    <div>
+                        <a href="#"><i class="fa fa-facebook-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-github-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-twitter-square" style="font-size:23px; color:black;"></i></a>
+                    </div>
+                    <button  onclick="singleProfile(${i})">View Profile</button>
+                </div>
+                </div>
+               
+                </div>`
+    }
+    else
+    {
+        temp+=`<div id="card">
+       <div class="cards"  onclick="singleProfile(${i})"id="cardsm">
+                <img style="width:20vw;height:30vh;"src="${students[i].image}">
+                <div id="details">
+                    <div>${students[i].name}</div>
+                    <div>${students[i].company}</div>
+                    <div>${students[i].country}</div>
+                    <div>
+                        <a href="#"><i class="fa fa-facebook-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-github-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-twitter-square" style="font-size:23px; color:black;"></i></a>
+                    </div>
+                    <button  onclick="singleProfile(${i})">View Profile</button>
+                </div>
+                </div>
+                <div class="cards" id="cardsm">
+                <img style="width:20vw;height:30vh;"src="${students[i+1].image}">
+                <div id="details">
+                    <div>${students[i+1].name}</div>
+                    <div>${students[i+1].company}</div>
+                    <div>${students[i+1].country}</div>
+                    <div>
+                        <a href="#"><i class="fa fa-facebook-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-github-square" style="font-size:23px; color:black;"></i></a>
+                        <a href="#"><i class="fa fa-twitter-square" style="font-size:23px; color:black;"></i></a>
+                    </div>
+                    <button  onclick="singleProfile(${i+1})">View Profile</button>
+                </div>
+                </div>
+                </div>`
+                
+    }
+
+   
+}
+card.innerHTML=temp;
+}
+//function called when search key is clicked
+function filter(){
+    var nameInput=document.getElementById("searching");
+    var name=nameInput.value;
+    //the query url
+    var urlsearch=url+"/search?q=id=i&name="+name;
+var promiseOfResponse = fetch(urlsearch);
+promiseOfResponse.then(response => {
+    // this will execute only when
+    // promise is fullfilled
+    if (response.status == 200) {
+        var promiseOfData = response.json();
+        promiseOfData.then(jsonData => {
+            students = jsonData;
+            console.log(jsonData);
+            //as we get the filtered data we render it
+            render();
+            //as the list students consists of the filtered profiles only we convert it back to its normal form
+            students=copystudents;
+        });
+    }
+});
+}
+//this function executes when we want to explore the profile of a person, a single structure layout is used for everyone using an index
+function singleProfile(index){
+    var show="";
+    //we make the profile of the function whose view profile button is clicked
+    show=`<div class="profile">
+        <div id="image-box">
+            <img src="${students[index].image}">
+            </div>
+        <div id="profileDescription">
+            <div><h2>${students[index].name}</h2><div>
+                <div><h3>${students[index].college}</h3></div>
+                <div><h4>About me</h4>
+                <br />
+                <div>${students[index].description}</div>
+                </div>
+                <div><h4>Skills</h4>
+                    <div>${students[index].skills}</div>
+                    </div>
+                <div>
+                    </div>
+                    <button class="back" onclick="render()">Back</button>
+                    `
+
+    var ele=document.getElementById("align");
+    ele.innerHTML=show;
+}
+//this is the function which is used to logout of the website
+function dropdown()
+{
+    var image=document.getElementById("profile-image");
+    var drop="";
+    drop=`<div class="dropdown">
+        <button class="dropdown-content" style="background-color:#333333;">
+            <img style="width: 30px; height:7vh; border-radius: 50%;background-color:#333333;" src="images/login-image.jpg">
+            <a style="background-color:#000;color:white;" href="index.html">Logout</a>
+            </br />
+            </div>
+            </div>
+    `
+    image.innerHTML=drop;
+}
+
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login Page</title>
+        <link rel= "stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <style>
+        @media only screen and (max-width: 750px) {
+
+            
+            #navbarbottom{
+                flex-direction:column;
+                height:120px;
+                
+            }
+            #fright{
+                width:370px;
+            }
+
+        }
+   </style>
+   
+    </head>
+    <body >
+        <div id="navbar">
+            <div id="logo">TYP.</div>
+            <div><input type="search" placeholder="Search...." id="searching"><label><button onclick="filter()">Key</button></label></div>
+            <div id="profile-image"><img onclick="dropdown()" style="width: 30px; height:7vh; border-radius: 50%;" src="images/login-image.jpg"></div>
+        </div>
+        <div class="container" id="login">
+        <div><h2 id="heading">Login</h2></div>
+        <div>
+            <label><h3>User Name</h3></label><input id="username" type="text" placeholder="Username">
+        </div>
+
+        <div>
+            <label><h3>Password:</h3></label><input id="pass" type="password" placeholder="Password"></div>
+        <div><button id="btn" onclick="submit()">Submit</button></div>
+        </div>
+
+        <footer id="navbarbottom">
+            <div id="fleft">
+                <p>(c)2020. The youth Project TYP TITANS</p>
+            </div>
+            <div id="fright">
+               
+                    <div a="href">Terms of Use</a></div>
+               <div>Privacy Policy</a></div>
+               <div>Support</a></div>   
+        
+                
+                <div>|</div>
+                <div id="icons" style="color:white"></div>
+                <a href="#"><i class="fa fa-facebook-square" style="font-size:23px"></i></a>
+                <a href="#"><i class="fa fa-twitter-square" style="font-size:23px"></i></a>
+                <a href="#"><i class="fa fa-instagram" style="font-size:23px"></i></a>
+                <a href="#"><i class="fa fa-github-square" style="font-size:23px"></i></a>
+            </div>
+        </footer>
+
+
+       
+        <script>
+            var students = [];
+
+        // write code to fetch students list
+        var user=document.getElementById("username");
+        var pass=document.getElementById("pass");
+        var url = "http://localhost:8083";
+     
+       //the function will execute when we want click the submit button
+        function submit(){
+             var loginres;
+            var usernameQuery=user.value;
+            var passQuery=pass.value;
+            //generating the query url
+            var searchurl=url+"/login?q=id=i&userid="+usernameQuery+"&password="+passQuery;
+            var promise=fetch(searchurl);
+            //handling the promise of data and using it to login
+            promise.then(response=>{
+               if (response.status == 200) {
+                var promiseOfData = response.json();
+                promiseOfData.then(jsonData => {
+                    loginres = jsonData;
+                     console.log(loginres);
+                   if(loginres[0]==='not found')
+                   {
+                       var next=document.getElementById("heading");
+            next.innerHTML=`<h2>Invalid Username or Password</h2>`
+                   }
+                   else
+                   {
+                       var next=document.getElementById("login");
+                    next.innerHTML= `<div>
+                        <div><h1>Login Successfull</h1></div>
+                        <div><h2>Welcome ${loginres}</h2></div>
+                        <div class="visit"><a href="profiles.html">Visit Profiles</a>
+                        </div>`
+                   }
+                });
+               }
+                   
+                });
+            
+        }
+        </script>
+        </body>
+</html>
